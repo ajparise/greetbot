@@ -136,6 +136,12 @@ app.post('/interactive-message', (req, res) => {
   } else { res.sendStatus(500); }
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`App listening on port ${process.env.PORT}!`);
-});
+// Conditional allows for Mocha to run tests at the same time as express is
+// running - prevents from server running twice. - https://goo.gl/XLbkoY
+if (!module.parent) {
+  app.listen(process.env.PORT, () => {
+    console.log(`App listening on port ${process.env.PORT}!`);
+  });
+}
+
+module.exports = app;
